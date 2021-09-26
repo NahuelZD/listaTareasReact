@@ -1,18 +1,29 @@
-import React, {Fragment} from "react";
+import React, { Fragment, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Header from "./Componentes/header/header";
-import Tareas from "./Componentes/ToDo/ToDo";
-import ListaDibujada from "./Componentes/ToDo/ListaDibujada";
-import Item from "./Componentes/ToDo/Items";
+import AddTask from "./Componentes/ToDo/AddTask";
+import TaskList from "./Componentes/ToDo/TaskList";
+import { Container } from "react-bootstrap";
 
 function App() {
+  const localTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const [tasks, setTasks] = useState(localTasks);
+  console.log('Tareas: ',tasks)
+  const handleAddTask = (addTask) => {
+    console.log(addTask);
+    const newTasks = [...tasks, addTask];
+    localStorage.setItem('tasks',JSON.stringify(newTasks));
+    setTasks(newTasks);
+  };
+
   return (
     <Fragment>
-      <Header/>
-      <Tareas/>
-      <ListaDibujada/>
-      <Item/>
+      <Container fluid="md">
+        <Header />
+        <AddTask handleAddTaskParent={handleAddTask} />
+        <TaskList tasksToRender={tasks} />
+      </Container>
     </Fragment>
   );
 }

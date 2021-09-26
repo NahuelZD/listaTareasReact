@@ -1,22 +1,15 @@
 import React, { Fragment, useState } from 'react';
 
-const Tareas = () => {
-    const [listaTareas, setListaTareas] = useState([]);
+const AddTask = (props) => {
     const [tarea, setTarea] = useState("");
-
     const capturarTarea = (e)=>{
-        //Cada vez que suceda el evento...
-        console.log(e.target.value);
-        //Guardar el contenido de...
-        setTarea(e.target.value)
+        setTarea(e.target.value);
     }
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        console.log("En el evento Submit")
-        let arreglo = listaTareas;
-        arreglo.push(tarea);
-        setListaTareas(arreglo);
+        /* Llamo a la propiedad compartida con mi componente padre, que es una funcion a traves de props */
+        props.handleAddTaskParent(tarea);
         setTarea("");
     }
 
@@ -26,7 +19,7 @@ const Tareas = () => {
             <div className="container d-flex justify-content-center mt-2">
                 <form className="w-75" onSubmit={handleSubmit}>
                     <div className="d-flex form-group">
-                        <input type="text" className="form-control" placeholder="Tarea 1" onChange={capturarTarea} value={tarea}>
+                        <input type="text" className="form-control" placeholder="Tareas" onChange={capturarTarea} value={tarea}>
                         </input>
                         <button className="btn btn-outline-dark mx-2" type="submit">Agregar</button>
                     </div>
@@ -36,4 +29,4 @@ const Tareas = () => {
     );
 };
 
-export default Tareas;
+export default AddTask;
